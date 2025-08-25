@@ -9,6 +9,11 @@ class UserAlbum extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'rating',
+        'picture'
+    ];
+
     public function user(){
         return $this->belongsTo(User::class, 'userId');
     }

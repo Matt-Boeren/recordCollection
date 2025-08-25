@@ -9,18 +9,18 @@ return new class extends Migration
 
     public function up(): void
     {
-        Schema::create('side', function (Blueprint $table) {
+        Schema::create('sides', function (Blueprint $table) {
             $table->id()->primary();
             $table->string('name');
             $table->unsignedBigInteger('albumId');
             $table->foreign('albumId')
-                  ->references('id')->on('album')->restrictOnDelete();
+                  ->references('id')->on('albums')->restrictOnDelete();
             $table->timestamps();
         });
     }
 
     public function down(): void
     {
-        Schema::dropIfExists('side');
+        Schema::dropIfExists('sides');
     }
 };

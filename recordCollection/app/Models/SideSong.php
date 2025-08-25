@@ -9,6 +9,10 @@ class SideSong extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'order'
+    ];
+
     public function side(){
         return $this->belongsTo(Side::class, 'sideId');
     }

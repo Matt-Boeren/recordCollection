@@ -9,20 +9,22 @@ return new class extends Migration
 
     public function up(): void
     {
-        Schema::create('user_album', function (Blueprint $table) {
+        Schema::create('user_albums', function (Blueprint $table) {
             $table->id()->primary();
+            $table->integer('rating')->nullable();
+            $table->string('picture')->nullable();
             $table->uuid('userId');
             $table->foreign('userId')
-                  ->references('id')->on('user')->restrictOnDelete();
+                  ->references('id')->on('users')->restrictOnDelete();
             $table->unsignedBigInteger('albumId');
             $table->foreign('albumId')
-                ->references('id')->on('album')->restrictOnDelete();
+                ->references('id')->on('albums')->restrictOnDelete();
             $table->timestamps();
         });
     }
 
     public function down(): void
     {
-        Schema::dropIfExists('user_album');
+        Schema::dropIfExists('user_albums');
     }
 };

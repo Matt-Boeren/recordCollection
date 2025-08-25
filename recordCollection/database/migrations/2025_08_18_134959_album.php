@@ -8,21 +8,21 @@ return new class extends Migration
 {
     public function up(): void
     {
-        Schema::create('album', function (Blueprint $table) {
+        Schema::create('albums', function (Blueprint $table) {
             $table->id()->primary();
             $table->string('name');
             $table->unsignedBigInteger('genreId');
             $table->foreign('genreId')
-                  ->references('id')->on('genre')->restrictOnDelete();
+                  ->references('id')->on('genres')->restrictOnDelete();
             $table->unsignedBigInteger('artistId');
             $table->foreign('artistId')
-                ->references('id')->on('artist')->restrictOnDelete();
+                ->references('id')->on('artists')->restrictOnDelete();
             $table->timestamps();
         });
     }
 
     public function down(): void
     {
-        Schema::dropIfExists('album');
+        Schema::dropIfExists('albums');
     }
 };

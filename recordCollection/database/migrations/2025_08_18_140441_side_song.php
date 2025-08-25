@@ -9,20 +9,21 @@ return new class extends Migration
 
     public function up(): void
     {
-        Schema::create('side_song', function (Blueprint $table) {
+        Schema::create('side_songs', function (Blueprint $table) {
             $table->id()->primary();
+            $table->integer('order');
             $table->unsignedBigInteger('sideId');
             $table->foreign('sideId')
-                  ->references('id')->on('side')->restrictOnDelete();
+                  ->references('id')->on('sides')->restrictOnDelete();
             $table->unsignedBigInteger('songId');
             $table->foreign('songId')
-                ->references('id')->on('song')->restrictOnDelete();
+                ->references('id')->on('songs')->restrictOnDelete();
             $table->timestamps();
         });
     }
 
     public function down(): void
     {
-        Schema::dropIfExists('side_song');
+        Schema::dropIfExists('side_songs');
     }
 };
