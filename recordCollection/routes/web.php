@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\album;
+use App\Http\Controllers\general;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -16,5 +18,16 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
+
+Route::get('/album', [album::class, 'showAlbum'])->name('/album');
+Route::post('/addAlbum', [album::class, 'addAlbum'])->name('/addAlbum');
+
+Route::get('/general', [general::class, 'showGeneral'])->name('/general');
+Route::post('/addArtist', [general::class, 'addArtist'])->name('/addArtist');
+Route::delete('/deleteArtist/{id}', [general::class, 'deleteArtist'])->name('/deleteArtist');
+Route::post('/addGenre', [general::class, 'addGenre'])->name('/addGenre');
+Route::delete('/deleteGenre/{id}', [general::class, 'deleteGenre'])->name('/deleteGenre');
+Route::post('/addLabel', [general::class, 'addLabel'])->name('/addLabel');
+Route::delete('/deleteLabel/{id}', [general::class, 'deleteLabel'])->name('/deleteLabel');
 
 require __DIR__.'/auth.php';
