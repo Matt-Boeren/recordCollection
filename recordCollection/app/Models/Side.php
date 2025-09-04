@@ -15,4 +15,7 @@ class Side extends Model
     public function album(){
         return $this->belongsTo(Album::class, 'albumId');
     }
+    public function songs(){
+        return $this->hasMany(Song::class, 'sideId');
+    }
 }

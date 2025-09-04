@@ -21,6 +21,8 @@ Route::middleware('auth')->group(function () {
 
 Route::get('/album', [album::class, 'showAlbum'])->name('/album');
 Route::post('/addAlbum', [album::class, 'addAlbum'])->name('/addAlbum');
+Route::get('/albumDetails/{id}', [album::class, 'albumDetails'])->name('/albumDetails');
+Route::delete('/deleteAlbum/{id}', [album::class, 'deleteAlbum'])->name('/deleteAlbum');
 
 Route::get('/general', [general::class, 'showGeneral'])->name('/general');
 Route::post('/addArtist', [general::class, 'addArtist'])->name('/addArtist');

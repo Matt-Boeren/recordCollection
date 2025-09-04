@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Album as AlbumModel;
 use App\Models\Artist;
 use App\Models\Genre;
+use App\Models\Side;
+use App\Models\Song;
 use Illuminate\Http\Request;
 
 class album extends Controller
@@ -11,10 +14,53 @@ class album extends Controller
     public function showAlbum(){
         $artists = Artist::all();
         $genres = Genre::all();
-
-        return view('album', compact('artists', 'genres'));
+        $albums = AlbumModel::all();
+        return view('album', compact('artists', 'genres', 'albums'));
     }
     public function addAlbum(Request $request){
+        $name = $request->input("albumName");
+        $artist = $request->input("artist");
+        $genre = $request->input("genre");
 
+        $album = new AlbumModel();
+        $album->name = $name;
+        $album->artistId = $artist;
+        $album->genreId = $genre;
+        $album->save();
+
+        $sideAmount = (int)$request->input("numSides");
+
+        for($i = 1; $i <= $sideAmount; $i++){
+            $sideName = $request->input("sideName" . (string)$i);
+            $side = new Side();
+            $side->name = $sideName;
+            $side->albumId = $album->id;
+            $side->save();
+
+            $numSongs = (int)$request->input("numSongs" . (string)$i);
+            for($j = 1; $j <= $numSongs; $j++){
+                $songName = $request->input("song" . (string)$i . (string)$j);
+                $song = new Song();
+                $song->name = $songName;
+                $song->order = $j;
+                $song->sideId = $side->id;
+                $song->save();
+                $song = null;
+            }
+        }
+
+        return redirect("/album");
+    }
+    public function deleteAlbum($id){
+
+        $albums = AlbumModel::with('sides.songs')->find($id);
+
+        return redirect("/album");
+    }
+    public function albumDetails($id){
+
+        $album = AlbumModel::with('sides.songs')->find($id);
+
+        return view('albumDetails', compact('album'));
     }
 }

@@ -11,5 +11,10 @@ class Song extends Model
 
     protected $fillable = [
         'name',
+        'order'
     ];
+
+    public function side(){
+        return $this->belongsTo(Side::class, 'sideId');
+    }
 }

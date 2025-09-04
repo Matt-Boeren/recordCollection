@@ -19,4 +19,7 @@ class Album extends Model
     public function artist(){
         return $this->belongsTo(Artist::class, 'artistId');
     }
+    public function sides(){
+        return $this->hasMany(Side::class, 'albumId');
+    }
 }

@@ -48,7 +48,7 @@
 
             </div>
 
-            <div>
+            <div class="flex justify-center">
                 <button id="addSide"
                         class="px-4 py-2 mr-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition">
                     Add record
@@ -69,6 +69,51 @@
                 </button>
             </div>
         </form>
+
+
+        <div class="max-w-6xl mx-auto px-6 py-8">
+            <h1 class="text-3xl font-bold text-gray-800 dark:text-gray-100 mb-6">Albums</h1>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                @foreach($albums as $album)
+                    <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-md p-6 hover:shadow-lg flex justify-between items-start transition">
+                        <div>
+                            <h2 class="text-xl font-semibold text-gray-800 dark:text-gray-100 mb-2">
+                                {{ $album->name }}
+                            </h2>
+                            <p class="text-gray-600 dark:text-gray-300">
+                                <span class="font-medium">Artist:</span> {{ $album->artist->name }}
+                            </p>
+                            <p class="text-gray-600 dark:text-gray-300">
+                                <span class="font-medium">Genre:</span> {{ $album->genre->name }}
+                            </p>
+                        </div>
+                        <div class="flex-col">
+                            <form method="POST" action="{{ route('/deleteAlbum', ['id' => $album->id]) }}" class="m-2">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit"
+                                        class="px-3 py-1 bg-red-600 text-white text-sm font-medium rounded-lg hover:bg-red-700 flex items-center space-x-1 transition">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
+                                         stroke="currentColor" stroke-width="2">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
+                                    </svg>
+                                    <span>Delete</span>
+                                </button>
+                            </form>
+                            <a href="{{ route('/albumDetails',  ['id' => $album->id]) }}"
+                                class="px-3 m-2 py-1 bg-green-600 text-white text-sm font-medium rounded-lg hover:bg-green-700 flex items-center space-x-1 transition">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640"><!--!Font Awesome Free v7.0.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.--><path d="M64 320C64 178.6 178.6 64 320 64C461.4 64 576 178.6 576 320C576 461.4 461.4 576 320 576C178.6 576 64 461.4 64 320zM320 224C373 224 416 267 416 320C416 373 373 416 320 416C267 416 224 373 224 320C224 267 267 224 320 224zM320 464C399.5 464 464 399.5 464 320C464 240.5 399.5 176 320 176C240.5 176 176 240.5 176 320C176 399.5 240.5 464 320 464zM320 352C337.7 352 352 337.7 352 320C352 302.3 337.7 288 320 288C302.3 288 288 302.3 288 320C288 337.7 302.3 352 320 352z"/></svg>
+                                    <span>Detais</span>
+                            </a>
+
+                        </div>
+
+
+                    </div>
+                @endforeach
+            </div>
+        </div>
     </div>
 
     <script>
