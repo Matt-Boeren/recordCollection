@@ -10,14 +10,10 @@
                 </h1>
 
                 <div class="flex space-x-3">
-                    {{-- Details --}}
-                    <a href="{{ route('/albumDetails', ['id' => $album->id]) }}"
-                       class="px-4 py-2 bg-green-600 text-white text-sm font-medium rounded-lg hover:bg-green-700 flex items-center space-x-2 transition">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="currentColor" viewBox="0 0 24 24">
-                            <path d="M12 4.5C7.305 4.5 3.135 7.273 1.5 12c1.635 4.727 5.805 7.5 10.5 7.5s8.865-2.773 10.5-7.5c-1.635-4.727-5.805-7.5-10.5-7.5zM12 17c-2.757 0-5-2.243-5-5s2.243-5 5-5
-                            5 2.243 5 5-2.243 5-5 5z"/><circle cx="12" cy="12" r="2.5"/>
-                        </svg>
-                        <span>Details</span>
+                    {{-- Edit --}}
+                    <a href="{{ route('/editAlbum', ['id' => $album->id]) }}"
+                       class="px-4 py-2 bg-yellow-600 text-white text-sm font-medium rounded-lg hover:bg-yellow-700 flex items-center space-x-2 transition">
+                        <span>Edit album</span>
                     </a>
 
                     {{-- Delete --}}
@@ -26,11 +22,7 @@
                         @method('DELETE')
                         <button type="submit"
                                 class="px-4 py-2 bg-red-600 text-white text-sm font-medium rounded-lg hover:bg-red-700 flex items-center space-x-2 transition">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
-                                 stroke="currentColor" stroke-width="2">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
-                            </svg>
-                            <span>Delete</span>
+                            <span>Delete album</span>
                         </button>
                     </form>
                 </div>

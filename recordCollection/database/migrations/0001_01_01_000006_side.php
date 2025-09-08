@@ -14,7 +14,7 @@ return new class extends Migration
             $table->string('name');
             $table->unsignedBigInteger('albumId');
             $table->foreign('albumId')
-                  ->references('id')->on('albums')->restrictOnDelete();
+                  ->references('id')->on('albums')->cascadeOnDelete();
             $table->timestamps();
         });
     }

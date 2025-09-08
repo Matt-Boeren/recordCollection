@@ -2,7 +2,7 @@
     <div class="max-w-6xl mx-auto px-6 py-8">
         <h1 class="text-3xl font-bold text-gray-800 dark:text-gray-100 mb-8">Album</h1>
 
-        <form method="POST" action="{{ route('/addAlbum') }}"
+        <form method="POST" action="{{ route('/editAlbum', ['id' => $album->id]) }}"
               class="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-md space-y-8">
             @csrf
             <input type="hidden" name="numSides" id="numSides" value="2" />
@@ -12,7 +12,7 @@
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                 <div>
                     <label for="albumName" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Album Name</label>
-                    <input type="text" name="albumName" id="albumName"
+                    <input type="text" name="albumName" id="albumName" value="{{ $album->name }}"
                            class="w-full mt-1 p-2 border border-gray-300 dark:border-gray-600 rounded-lg
                                   bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100
                                   focus:ring-2 focus:ring-blue-500 focus:outline-none"/>
@@ -25,7 +25,11 @@
                                    bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100
                                    focus:ring-2 focus:ring-blue-500 focus:outline-none">
                         @foreach($artists as $artist)
-                            <option value="{{ $artist->id }}">{{ $artist->name }}</option>
+                            @if($artist->id == $album->artistId)
+                                <option value="{{ $artist->id }}" selected>{{ $artist->name }}</option>
+                            @else
+                                <option value="{{ $artist->id }}">{{ $artist->name }}</option>
+                            @endif
                         @endforeach
                     </select>
                 </div>
@@ -37,7 +41,11 @@
                                    bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100
                                    focus:ring-2 focus:ring-blue-500 focus:outline-none">
                         @foreach($genres as $genre)
-                            <option value="{{ $genre->id }}">{{ $genre->name }}</option>
+                            @if($genre->id == $album->genreId)
+                                <option value="{{ $genre->id }}" selected>{{ $genre->name }}</option>
+                            @else
+                                <option value="{{ $genre->id }}">{{ $genre->name }}</option>
+                            @endif
                         @endforeach
                     </select>
                 </div>
@@ -47,6 +55,7 @@
             <div id="sideContainer" class="grid grid-cols-1 md:grid-cols-2 gap-8">
 
             </div>
+
 
             <div class="flex justify-center">
                 <button id="addSide"
@@ -62,77 +71,43 @@
 
 
             {{-- Submit --}}
-            <div>
+
+            <div class="flex gap-2">
                 <button type="submit"
-                        class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition">
-                    Add album
+                    class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition inline-flex items-center justify-center">
+                    Edit album
                 </button>
+
+                <a href="{{ route('/albumDetails', ['id' => $album->id]) }}"
+                    class="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition inline-flex items-center justify-center">
+                    Cancel
+                </a>
             </div>
         </form>
 
-
-        <div class="max-w-6xl mx-auto px-6 py-8">
-            <h1 class="text-3xl font-bold text-gray-800 dark:text-gray-100 mb-6">Albums</h1>
-
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                @foreach($albums as $album)
-                    <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-md p-6 hover:shadow-lg flex justify-between items-start transition">
-                        <div>
-                            <h2 class="text-xl font-semibold text-gray-800 dark:text-gray-100 mb-2">
-                                {{ $album->name }}
-                            </h2>
-                            <p class="text-gray-600 dark:text-gray-300">
-                                <span class="font-medium">Artist:</span> {{ $album->artist->name }}
-                            </p>
-                            <p class="text-gray-600 dark:text-gray-300">
-                                <span class="font-medium">Genre:</span> {{ $album->genre->name }}
-                            </p>
-                        </div>
-                        <div class="flex-col">
-
-
-                            {{-- Details --}}
-                            <a href="{{ route('/albumDetails', ['id' => $album->id]) }}"
-                               class="w-24 m-2 text-center px-3 py-1 bg-green-600 text-white text-sm font-medium rounded-lg hover:bg-green-700 flex items-center justify-center space-x-1 transition">
-                                <span>Details</span>
-                            </a>
-
-                            {{-- Edit --}}
-                            <a href="{{ route('/editAlbum', ['id' => $album->id]) }}"
-                               class="w-24 m-2 text-center px-3 py-1 bg-yellow-600 text-white text-sm font-medium rounded-lg hover:bg-yellow-700 flex items-center justify-center space-x-1 transition">
-                               <span>Edit album</span>
-                            </a>
-
-                            {{-- Delete --}}
-                            <form method="POST" action="{{ route('/deleteAlbum', ['id' => $album->id]) }}" class="m-2">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit"
-                                        class="w-24 text-center px-3 py-1 bg-red-600 text-white text-sm font-medium rounded-lg hover:bg-red-700 flex items-center justify-center space-x-1 transition">
-                                    <span>Delete</span>
-                                </button>
-                            </form>
-
-                        </div>
-
-
-                    </div>
-                @endforeach
-            </div>
-        </div>
     </div>
 
     <script>
         let number = 0;
-        addSide();
+        let sides = {!! json_encode($album->sides->toArray()) !!};
+        console.log(sides);
+
+        sides.forEach(function (side){
+            const container = document.getElementById('sideContainer');
+            number++;
+            container.appendChild(createSide(number, side.name, side.songs));
+        });
+
+        const numSides = document.getElementById('numSides');
+        numSides.value = number;
 
         function addSide(){
 
             const container = document.getElementById('sideContainer');
             number++;
-            container.appendChild(createSide(number));
+            container.appendChild(createSide(number,"",[]));
             number++;
-            container.appendChild(createSide(number));
+            container.appendChild(createSide(number,"",[]));
 
             const numSides = document.getElementById('numSides');
             numSides.value = number;
@@ -153,7 +128,7 @@
                 numSides.value = number;
             }
         });
-        function createSong(sideNumber, songNumber){
+        function createSong(sideNumber, songNumber, name){
             const songElement = document.createElement("div");
             const songLabel = document.createElement("label");
             songLabel.htmlFor = `song${sideNumber}${songNumber}`;
@@ -164,13 +139,14 @@
             songInput.type = "text";
             songInput.name = `song${sideNumber}${songNumber}`;
             songInput.id = `song${sideNumber}${songNumber}`;
+            songInput.value = name;
             songInput.classList = `w-full mt-1 p-2 border border-gray-300 dark:border-gray-600 rounded-lg
                                       bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100
                                       focus:ring-2 focus:ring-purple-500 focus:outline-none`;
             songElement.appendChild(songInput);
             return songElement;
         }
-        function createSide(sideNumber) {
+        function createSide(sideNumber, name, songList) {
             const div = document.createElement("div");
             div.classList = "space-y-4";
             const title = document.createElement("h2");
@@ -187,6 +163,7 @@
             nameInput.type = "text";
             nameInput.name = `sideName${sideNumber}`;
             nameInput.id = `sideName${sideNumber}`;
+            nameInput.value = name;
             nameInput.classList = `w-full mt-1 p-2 border border-gray-300 dark:border-gray-600 rounded-lg
                                       bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100
                                       focus:ring-2 focus:ring-green-500 focus:outline-none`;
@@ -196,16 +173,25 @@
             songAmount.type = "hidden";
             songAmount.id = `numSongs${sideNumber}`;
             songAmount.name = `numSongs${sideNumber}`;
-            songAmount.value = 1;
+            songAmount.value = songList.length;
             nameDiv.appendChild(songAmount);
 
             div.appendChild(nameDiv);
 
             const songDiv = document.createElement("div");
-            songDiv.id = `songs${sideNumber}`;
-            const songElement = createSong(sideNumber, 1);
-            songDiv.appendChild(songElement);
-            div.appendChild(songDiv);
+            for(let i = 0; i < songList.length; i++){
+                songDiv.id = `songs${sideNumber}`;
+                const songElement = createSong(sideNumber, i + 1, songList[i].name);
+                songDiv.appendChild(songElement);
+                div.appendChild(songDiv);
+            }
+            if(songList.length == 0){
+                songDiv.id = `songs${sideNumber}`;
+                const songElement = createSong(sideNumber, 1, "");
+                songDiv.appendChild(songElement);
+                div.appendChild(songDiv);
+                songAmount.value = 1;
+            }
 
             const add = document.createElement("button");
             add.id = `addSong${sideNumber}`;
@@ -218,7 +204,7 @@
                 let amount = parseInt(songAmount.value);
                 amount++;
                 songAmount.value = amount;
-                const songElement = createSong(sideNumber, amount);
+                const songElement = createSong(sideNumber, amount, "");
                 container.appendChild(songElement);
             });
             div.appendChild(add);

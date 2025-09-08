@@ -23,6 +23,8 @@ Route::get('/album', [album::class, 'showAlbum'])->name('/album');
 Route::post('/addAlbum', [album::class, 'addAlbum'])->name('/addAlbum');
 Route::get('/albumDetails/{id}', [album::class, 'albumDetails'])->name('/albumDetails');
 Route::delete('/deleteAlbum/{id}', [album::class, 'deleteAlbum'])->name('/deleteAlbum');
+Route::get('/editAlbum/{id}', [album::class, 'showEditAlbum'])->name('/editAlbum');
+Route::post('/editAlbum/{id}', [album::class, 'editAlbum'])->name('/editAlbum');
 
 Route::get('/general', [general::class, 'showGeneral'])->name('/general');
 Route::post('/addArtist', [general::class, 'addArtist'])->name('/addArtist');

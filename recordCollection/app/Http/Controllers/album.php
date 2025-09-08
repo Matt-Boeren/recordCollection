@@ -18,11 +18,51 @@ class album extends Controller
         return view('album', compact('artists', 'genres', 'albums'));
     }
     public function addAlbum(Request $request){
+
+        $album = new AlbumModel();
+
+        $this->album($album, $request);
+
+        return redirect("/album");
+    }
+    public function deleteAlbum($id){
+        $album = AlbumModel::find($id);
+        $album->delete();
+
+        return redirect("/album");
+    }
+    public function albumDetails($id){
+
+        $album = AlbumModel::with('sides.songs')->find($id);
+
+        return view('albumDetails', compact('album'));
+    }
+    public function showEditAlbum($id){
+        $artists = Artist::all();
+        $genres = Genre::all();
+        $album = AlbumModel::with('sides.songs')->find($id);
+
+
+        return view('editAlbum', compact('artists', 'genres', 'album'));
+    }
+    public function editAlbum($id, Request $request){
+
+        $album = AlbumModel::with('sides.songs')->find($id);
+
+        $album->sides()->delete();
+
+        $this->album($album, $request);
+
+        $url = "/albumDetails/" . (string)$id;
+        return redirect($url);
+    }
+
+    private function album(AlbumModel $album, Request $request){
+
         $name = $request->input("albumName");
         $artist = $request->input("artist");
         $genre = $request->input("genre");
 
-        $album = new AlbumModel();
         $album->name = $name;
         $album->artistId = $artist;
         $album->genreId = $genre;
@@ -48,19 +88,6 @@ class album extends Controller
                 $song = null;
             }
         }
-
-        return redirect("/album");
     }
-    public function deleteAlbum($id){
 
-        $albums = AlbumModel::with('sides.songs')->find($id);
-
-        return redirect("/album");
-    }
-    public function albumDetails($id){
-
-        $album = AlbumModel::with('sides.songs')->find($id);
-
-        return view('albumDetails', compact('album'));
-    }
 }

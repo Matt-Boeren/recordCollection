@@ -15,7 +15,7 @@ return new class extends Migration
             $table->integer('order');
             $table->unsignedBigInteger('sideId');
             $table->foreign('sideId')
-                  ->references('id')->on('sides')->restrictOnDelete();
+                  ->references('id')->on('sides')->cascadeOnDelete();
         });
     }
 
