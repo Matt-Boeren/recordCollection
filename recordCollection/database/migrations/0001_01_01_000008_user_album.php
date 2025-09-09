@@ -11,7 +11,7 @@ return new class extends Migration
     {
         Schema::create('user_albums', function (Blueprint $table) {
             $table->id()->primary();
-            $table->integer('rating')->nullable();
+            $table->float('rating')->nullable();
             $table->string('picture')->nullable();
             $table->uuid('userId');
             $table->foreign('userId')

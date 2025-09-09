@@ -73,7 +73,7 @@ class album extends Controller
                 $q->where('name', 'like', '%' . $searchValue . '%');
             })
             ->get();
-        return view('searchAlbum', compact('albums'));
+        return view('searchAlbum', compact('albums', 'searchValue'));
     }
     private function album(AlbumModel $album, Request $request){
 
