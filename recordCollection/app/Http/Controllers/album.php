@@ -56,7 +56,25 @@ class album extends Controller
         $url = "/albumDetails/" . (string)$id;
         return redirect($url);
     }
+    public function showSearchAlbum(){
+        return view('searchAlbum');
+    }
 
+    public function SearchAlbum(Request $request){
+        $searchValue = $request->input('searchValue');
+        $albums = AlbumModel::where('name', 'like', '%' . $searchValue . '%')
+            ->orWhereHas('artist', function($q) use($searchValue) {
+                $q->where('name', 'like', '%' . $searchValue . '%');
+            })
+            ->orWhereHas('genre', function($q) use($searchValue) {
+                $q->where('name', 'like', '%' . $searchValue . '%');
+            })
+            ->orWhereHas('sides.songs', function($q) use($searchValue) {
+                $q->where('name', 'like', '%' . $searchValue . '%');
+            })
+            ->get();
+        return view('searchAlbum', compact('albums'));
+    }
     private function album(AlbumModel $album, Request $request){
 
         $name = $request->input("albumName");

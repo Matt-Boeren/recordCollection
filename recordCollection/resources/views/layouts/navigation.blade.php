@@ -16,8 +16,20 @@
                         {{ __('Dashboard') }}
                     </x-nav-link>
 
+                    <x-nav-link :href="route('/collection')" :active="request()->routeIs('/collection')">
+                        {{ __('Collection') }}
+                    </x-nav-link>
+
+                    <x-nav-link :href="route('/addToCollection')" :active="request()->routeIs('/addToCollection')">
+                        {{ __('Add to collection') }}
+                    </x-nav-link>
+
                     <x-nav-link :href="route('/album')" :active="request()->routeIs('/album')">
-                        {{ __('Album') }}
+                        {{ __('Add album') }}
+                    </x-nav-link>
+
+                    <x-nav-link :href="route('/searchAlbum')" :active="request()->routeIs('/searchAlbum')">
+                        {{ __('Search album') }}
                     </x-nav-link>
 
                     <x-nav-link :href="route('/general')" :active="request()->routeIs('/general')">
@@ -79,8 +91,20 @@
                 {{ __('Dashboard') }}
             </x-responsive-nav-link>
 
+            <x-responsive-nav-link :href="route('/collection')" :active="request()->routeIs('/collection')">
+                {{ __('Collection') }}
+            </x-responsive-nav-link>
+
+            <x-responsive-nav-link :href="route('/addToCollection')" :active="request()->routeIs('/addToCollection')">
+                {{ __('Add to collection') }}
+            </x-responsive-nav-link>
+
             <x-responsive-nav-link :href="route('/album')" :active="request()->routeIs('/album')">
-                {{ __('Album') }}
+                {{ __('Add album') }}
+            </x-responsive-nav-link>
+
+            <x-responsive-nav-link :href="route('/searchAlbum')" :active="request()->routeIs('/searchAlbum')">
+                {{ __('Search album') }}
             </x-responsive-nav-link>
 
             <x-responsive-nav-link :href="route('/general')" :active="request()->routeIs('/general')">
