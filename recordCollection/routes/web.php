@@ -40,5 +40,6 @@ Route::delete('/deleteLabel/{id}', [general::class, 'deleteLabel'])->name('/dele
 Route::get('/collection', [collection::class, 'showCollection'])->name('/collection');
 Route::get('/addToCollection/{id}', [collection::class, 'showAddToCollection'])->name('/addToCollection');
 Route::post('/addToCollection/{id}', [collection::class, 'addToCollection'])->name('/addToCollection');
+Route::delete('/deleteFromCollection/{id}', [collection::class, 'deleteFromCollection'])->name('/deleteFromCollection');
 
 require __DIR__.'/auth.php';

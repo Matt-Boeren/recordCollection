@@ -36,6 +36,17 @@
                                class="block w-full text-center px-3 py-2 bg-green-600 text-white text-sm font-medium rounded-lg hover:bg-green-700 transition">
                                 Details
                             </a>
+
+                            {{-- Delete --}}
+                            <form method="POST" action="{{ route('/deleteFromCollection', ['id' => $userAlbum->album->id]) }}" class="mt-2">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit"
+
+                               class="block w-full text-center px-3 py-2 bg-red-600 text-white text-sm font-medium rounded-lg hover:bg-red-700 transition">
+                                    <span>Delete from collection</span>
+                                </button>
+                            </form>
                         </div>
                     </div>
                 @endforeach

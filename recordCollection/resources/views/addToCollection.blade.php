@@ -48,6 +48,21 @@
                               hover:file:bg-blue-700 transition"/>
             </div>
 
+
+            {{-- Labels --}}
+            <div>
+                <h2 class="text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Labels</h2>
+                <div class="flex flex-wrap gap-4">
+                    @foreach($labels as $label)
+                        <label class="flex items-center space-x-2 cursor-pointer">
+                            <input type="checkbox" id="label{{ $label->id }}" name="labels[]" value="{{ $label->id }}"
+                                   class="h-4 w-4 rounded border-gray-300 dark:border-gray-600 text-blue-600 dark:text-blue-400 focus:ring-blue-500 dark:focus:ring-blue-400"/>
+                            <span class="text-gray-900 dark:text-gray-100 font-medium">{{ $label->name }}</span>
+                        </label>
+                    @endforeach
+                </div>
+            </div>
+
             {{-- Submit --}}
             <div>
                 <button type="submit"
