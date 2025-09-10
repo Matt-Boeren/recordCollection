@@ -18,10 +18,10 @@ return new class extends Migration
             $table->id()->primary();
             $table->unsignedBigInteger('labelId');
             $table->foreign('labelId')
-                  ->references('id')->on('labels')->restrictOnDelete();
+                  ->references('id')->on('labels')->cascadeOnDelete();
             $table->unsignedBigInteger('userAlbumId');
             $table->foreign('userAlbumId')
-                ->references('id')->on('user_albums')->restrictOnDelete();
+                ->references('id')->on('user_albums')->cascadeOnDelete();
             $table->timestamps();
         });
     }

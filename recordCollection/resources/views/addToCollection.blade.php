@@ -33,7 +33,7 @@
                                   accent-blue-600 dark:accent-blue-400"
                            oninput="this.nextElementSibling.value = parseFloat(this.value).toFixed(2)"/>
 
-                    <output class="text-gray-900 dark:text-gray-100 font-semibold w-12 text-center">2.50</output>
+                    <output class="text-gray-900 dark:text-gray-100 font-semibold w-12 text-center" id="ratingOutput"></output>
                 </div>
             </div>
             {{-- Picture --}}
@@ -105,4 +105,10 @@
 
         </div>
     </div>
+<script>
+	const input = document.getElementById("rating");
+    const output = document.getElementById("ratingOutput");
+    output.innerText = parseFloat(input.value).toFixed(2);
+</script>
+
 </x-app-layout>

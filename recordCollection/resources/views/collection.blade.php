@@ -8,8 +8,8 @@
                     <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-md p-6 hover:shadow-lg transition flex flex-col">
                         {{-- Album Cover --}}
                         @if($userAlbum->picture != null)
-                            <img src="{{ $userAlbum->picture }}" alt="{{ $userAlbum->album->name }} cover"
-                                 class="w-full h-48 object-cover rounded-lg mb-4">
+                        <img src="{{ asset('storage/' . $userAlbum->picture ) }}" alt="{{ $userAlbum->album->name }} cover"
+                                 class="w-full h-48 object-contain rounded-lg mb-4">
                         @endif
 
                         {{-- Rating --}}
@@ -38,7 +38,7 @@
                             </a>
 
                             {{-- Delete --}}
-                            <form method="POST" action="{{ route('/deleteFromCollection', ['id' => $userAlbum->album->id]) }}" class="mt-2">
+                            <form method="POST" action="{{ route('/deleteFromCollection', ['id' => $userAlbum->id]) }}" class="mt-2">
                                 @csrf
                                 @method('DELETE')
                                 <button type="submit"
