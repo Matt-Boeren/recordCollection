@@ -10,7 +10,6 @@
               class="mt-4 bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-md space-y-8">
             @csrf
 
-
             {{-- Album Info --}}
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                 <div>
@@ -21,6 +20,11 @@
                 <div>
                     <h2 class="text-sm font-medium text-gray-700 dark:text-gray-300">Genre</h2>
                     <p class="mt-1 text-gray-900 dark:text-gray-100">{{ $album->genre->name }}</p>
+                </div>
+
+                <div class="md:col-span-2">
+                    <h2 class="text-sm font-medium text-gray-700 dark:text-gray-300">Artist Info</h2>
+                    <p class="mt-1 text-gray-900 dark:text-gray-100">{{ $album->artist->description }}</p>
                 </div>
             </div>
 

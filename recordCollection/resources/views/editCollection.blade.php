@@ -22,6 +22,11 @@
                     <h2 class="text-sm font-medium text-gray-700 dark:text-gray-300">Genre</h2>
                     <p class="mt-1 text-gray-900 dark:text-gray-100">{{ $userAlbum->album->genre->name }}</p>
                 </div>
+
+                <div class="md:col-span-2">
+                    <h2 class="text-sm font-medium text-gray-700 dark:text-gray-300">Artist Info</h2>
+                    <p class="mt-1 text-gray-900 dark:text-gray-100">{{ $userAlbum->album->artist->description }}</p>
+                </div>
             </div>
 
             {{-- Description --}}
