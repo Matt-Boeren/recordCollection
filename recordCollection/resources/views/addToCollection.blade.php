@@ -24,16 +24,31 @@
                 </div>
             </div>
 
+            {{-- Description --}}
+            <div class="md:col-span-3">
+                <label for="description" class="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                    Description
+                </label>
+                <textarea id="description" name="description" rows="4"
+                          class="mt-1 block w-full rounded-lg border-gray-300 dark:border-gray-700
+                                 dark:bg-gray-900 dark:text-gray-100 shadow-sm focus:ring-blue-500
+                                 focus:border-blue-500 sm:text-sm"></textarea>
+            </div>
+
             {{-- Rating --}}
             <div>
-                <label for="rating" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Rating</label>
-                <div class="flex items-center space-x-4 mt-2">
-                    <input type="range" id="rating" name="rating" min="0" max="5" step="0.25"
-                           class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer
-                                  accent-blue-600 dark:accent-blue-400"
-                           oninput="this.nextElementSibling.value = parseFloat(this.value).toFixed(2)"/>
+                <label for="rating" class="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                    <span>
+                        Rating:
+                    </span>
 
-                    <output class="text-gray-900 dark:text-gray-100 font-semibold w-12 text-center" id="ratingOutput"></output>
+                    <output class="text-gray-900 dark:text-gray-100 font-semibold text-center" id="ratingOutput"></output>
+                </label>
+                <div class="flex items-center space-x-4 mt-2">
+                    <input type="range" id="rating" name="rating" min="-0.25" max="5" step="0.25"
+                           class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer
+                                  accent-blue-600 dark:accent-blue-400" value="-0.25"/>
+
                 </div>
             </div>
             {{-- Picture --}}
@@ -105,10 +120,21 @@
 
         </div>
     </div>
-<script>
-	const input = document.getElementById("rating");
-    const output = document.getElementById("ratingOutput");
-    output.innerText = parseFloat(input.value).toFixed(2);
-</script>
+    <script>
+        const input = document.getElementById("rating");
+        const output = document.getElementById("ratingOutput");
+
+        output.innerText = "No rating";
+
+        input.addEventListener('input', function (e){
+            if(input.value == -0.25){
+                const output = document.getElementById("ratingOutput");
+                output.innerText = "No rating";
+            }
+            else{
+                output.innerText = parseFloat(input.value).toFixed(2);
+            }
+        });
+    </script>
 
 </x-app-layout>

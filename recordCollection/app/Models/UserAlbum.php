@@ -11,6 +11,7 @@ class UserAlbum extends Model
 
     protected $fillable = [
         'rating',
+        'description',
         'picture'
     ];
 
@@ -19,5 +20,9 @@ class UserAlbum extends Model
     }
     public function album(){
         return $this->belongsTo(Album::class, 'albumId');
+    }
+
+    public function labels(){
+        return $this->hasMany(LabelUserAlbum::class, 'userAlbumId');
     }
 }

@@ -27,10 +27,52 @@ class collection extends Controller
         return view('addToCollection', compact('album', 'labels'));
     }
     public function addToCollection($id, Request $request){
-        $rating = $request->input('rating');
-        $labels = $request->input('labels');
 
         $userAlbum = new UserAlbum();
+
+        $this->add($request, $userAlbum, $id);
+
+        return redirect('/collection');
+    }
+    public function showEditCollection($id){
+        $userAlbum = UserAlbum::find($id);
+        $labels = Label::all();
+        $selectedLabels = LabelUserAlbum::where('userAlbumId', '=', $id)->pluck('labelId')->toArray();
+        return view('editCollection', compact('userAlbum', 'labels', 'selectedLabels'));
+    }
+    public function editCollection($id, Request $request){
+        $userAlbum = UserAlbum::find($id);
+
+        $userAlbum->labels()->delete();
+
+        $this->add($request, $userAlbum, $userAlbum->albumId);
+        return redirect('/collection');
+    }
+    public function deleteFromCollection($id){
+        $userAlbum = UserAlbum::find($id);
+        if($userAlbum->picture != null){
+            Storage::disk('public')->delete($userAlbum->picture);
+        }
+        $userAlbum->delete();
+
+        return redirect('/collection');
+    }
+
+    private function add(Request $request, UserAlbum $userAlbum, $id){
+
+        $rating = $request->input('rating');
+        $labels = $request->input('labels');
+        $description = $request->input('description');
+
+
+        if($userAlbum->picture != null){
+            $delete = $request->input("pictureDeleted");
+            if($delete == "true"){
+                Storage::disk('public')->delete($userAlbum->picture);
+
+                $userAlbum->picture = null;
+            }
+        }
         if($request->hasFile('picture')){
 
 
@@ -46,8 +88,17 @@ class collection extends Controller
             $userAlbum->picture = $filePath . $fileName;
         }
 
+        if($description){
+            $userAlbum->description = $description;
+        }
+
         $userAlbum->albumId = $id;
-        $userAlbum->rating = $rating;
+        if($rating != -0.25){
+            $userAlbum->rating = $rating;
+        }
+        else{
+            $userAlbum->rating = null;
+        }
         $userAlbum->userId = Auth::id();
         $userAlbum->save();
         if($labels != null){
@@ -58,16 +109,5 @@ class collection extends Controller
                 $labelUserAlbum->save();
             }
         }
-
-        return redirect('/collection');
-    }
-    public function deleteFromCollection($id){
-        $userAlbum = UserAlbum::find($id);
-        if($userAlbum->picture != null){
-            Storage::disk('public')->delete($userAlbum->picture);
-        }
-        $userAlbum->delete();
-
-        return redirect('/collection');
     }
 }

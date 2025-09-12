@@ -41,5 +41,7 @@ Route::get('/collection', [collection::class, 'showCollection'])->name('/collect
 Route::get('/addToCollection/{id}', [collection::class, 'showAddToCollection'])->name('/addToCollection');
 Route::post('/addToCollection/{id}', [collection::class, 'addToCollection'])->name('/addToCollection');
 Route::delete('/deleteFromCollection/{id}', [collection::class, 'deleteFromCollection'])->name('/deleteFromCollection');
+Route::get('/editCollection/{id}', [collection::class, 'showEditCollection'])->name('/editCollection');
+Route::post('/editCollection/{id}', [collection::class, 'editCollection'])->name('/editCollection');
 
 require __DIR__.'/auth.php';
