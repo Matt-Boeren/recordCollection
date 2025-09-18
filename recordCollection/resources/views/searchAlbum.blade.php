@@ -62,6 +62,15 @@
                                class="px-3 py-2 bg-purple-600 text-white text-sm font-medium rounded-lg hover:bg-purple-700 text-center transition">
                                 Add to collection
                             </a>
+
+                            {{-- Add to wishlist --}}
+                            <form method="post" action="{{ route('/addToWishlist', ['id' => $album->id]) }}">
+                                @csrf
+                                <button type="submit"
+                                    class="px-3 py-2 bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700 text-center transition w-full">
+                                    Add to wishlist
+                                </button>
+                            </form>
                         </div>
                     </div>
                 @endforeach

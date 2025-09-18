@@ -6,6 +6,7 @@ use App\Models\Album;
 use App\Models\Label;
 use App\Models\LabelUserAlbum;
 use App\Models\UserAlbum;
+use App\Models\Wishlist;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
@@ -29,6 +30,14 @@ class collection extends Controller
     public function addToCollection($id, Request $request){
 
         $userAlbum = new UserAlbum();
+
+
+        $userId = Auth::id();
+        $wishlist = Wishlist::where('userId', '=', $userId)->where('albumId', '=', $id)->first();
+
+        if($wishlist != null){
+            $wishlist->delete();
+        }
 
         $this->add($request, $userAlbum, $id);
 
